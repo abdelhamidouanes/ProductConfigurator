@@ -1,0 +1,27 @@
+<dx-data-grid 
+[ngStyle]="{'height': getDataGridHeight()}"
+keyExpr="recno"
+[dataSource]="dataSource"
+[showBorders]="true"
+[columnAutoWidth]="true" 
+[columnHidingEnabled]="columnHidingEnabled()"
+[allowColumnResizing]="allowColumnResizing()"
+columnResizingMode="nextColumn"
+(onContentReady)="onContentReady()"
+(onSelectionChanged)="onSelectItem()"
+[hoverStateEnabled]="true"
+[selectedRowKeys]="[]" 
+>
+<dxi-column *ngFor="let column of columnsA_SELLISTUPDERGO" [dataField]="column.Code" [caption]="column.Label" [dataType]="column.Type"></dxi-column>
+
+<dxo-remote-operations
+    [paging]="true"
+    [filtering]="true" 
+>
+</dxo-remote-operations>
+
+<dxo-scrolling mode="virtual" rowRenderingMode="virtual" [useNative]="true" ></dxo-scrolling> 
+<dxo-sorting mode="none"> </dxo-sorting>
+
+<dxo-selection mode="single"> </dxo-selection>
+</dx-data-grid>

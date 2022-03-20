@@ -1,0 +1,20 @@
+<div class="container">    
+    <div class="list-container">
+        <dx-list 
+            #list
+            selectionMode="single"
+            [dataSource]="catalogues"
+            height="100%"
+            width="80%" 
+            [searchEnabled]="true"
+            [scrollByContent]="true"
+            searchExpr="Code"
+            searchMode="contains"
+            pageLoadMode="scrollBottom"
+            (onSelectionChanged)="onCatalogSelection(list.selectedItemKeys)">
+                <div *dxTemplate="let data of 'item'">
+                    <div (dblclick)="onDoubleClickCatalogSelection(data.Code)" class="no-selection">{{data.Code}}</div>
+                </div>
+        </dx-list>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+P conf/*
+- cache/
+- *.log
+- *.conf
+- *.gz
+- *.cache
+- *.done
+- *.asm.css
+- *.asm.js
+- /isomorphic_*
+- HTTP/dirs_white_list.php
+- HTTP/mime.types.php

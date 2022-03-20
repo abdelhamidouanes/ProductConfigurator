@@ -1,0 +1,78 @@
+Order allow,deny
+Allow from all
+
+# PHP specific
+<IfModule php5_module>
+	<FilesMatch "\.ph(p5?|tml)$">
+		SetHandler application/x-httpd-php
+	</FilesMatch>
+	<FilesMatch "\.phps$">
+		SetHandler application/x-httpd-php-source
+	</FilesMatch>
+	DirectoryIndex index.php index.phtml
+	php_flag short_open_tag on
+	php_flag display_errors off
+	php_flag log_errors on
+	php_value error_log php.log
+</IfModule>
+
+# Cache and specific optimisations
+FileETag MTime Size
+<IfModule expires_module>
+	ExpiresActive On
+	ExpiresDefault "access plus 5 minutes"
+	ExpiresByType image/* "access plus 2 hours"
+	ExpiresByType text/javascript "access plus 1 hours"
+	ExpiresByType text/css "access plus 1 hours"
+</IfModule>
+<FilesMatch "\.(gif|jpe?g|png)$">
+	<IfModule headers_module>
+		Header Set Cache-Control "public"
+	</IfModule>
+</FilesMatch>  
+<files *.js>
+	<IfModule headers_module>
+		Header Set Vary "Accept-Encoding"
+	</IfModule>
+</files>
+<files *.asm.js>
+	<IfModule expires_module>
+		ExpiresByType text/javascript "access plus 1 years"
+	</IfModule>
+</files>
+<files *.js.gz>
+	AddType "text/javascript" .gz
+	AddEncoding gzip .gz
+	<IfModule headers_module>
+		Header Set Vary "Accept-Encoding"
+	</IfModule>
+</files>
+<files *.asm.js.gz>
+	<IfModule expires_module>
+		ExpiresByType text/javascript "access plus 1 years"
+	</IfModule>
+</files>
+<files *.css>
+	<IfModule headers_module>
+		Header Set Vary "Accept-Encoding"
+	</IfModule>
+</files>
+<files *.css.gz>
+	AddType "text/css" .gz
+	AddEncoding gzip .gz
+	<IfModule headers_module>
+		Header Set Vary "Accept-Encoding"
+	</IfModule>
+</files>
+<IfModule rewrite_module>
+	RewriteEngine On
+	RewriteCond %{HTTP:Accept-encoding} gzip
+	RewriteCond %{REQUEST_FILENAME}.gz -f
+	RewriteRule ^(.*)$ %{REQUEST_URI}.gz [L,QSA]
+</IfModule>
+<IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    BrowserMatch chromeframe gcf
+    Header append X-UA-Compatible "chrome=1" env=gcf
+  </IfModule>
+</IfModule>

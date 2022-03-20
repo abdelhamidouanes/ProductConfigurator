@@ -1,0 +1,29 @@
+<div class="big-container">    
+    <div class="container">
+        <div class="title-container">
+            <img [src]="imgFolder+'cdicon.gif'" alt="cdicon">
+            <p>Login</p>
+        </div>
+        <form #f="ngForm">
+            <div class="one-input">
+
+                <input placeholder="Username" id="username" name="username" type="text"  (keydown.enter)="onSubmit(f)" class="input-field" ngModel> 
+            </div>
+            <div class="one-input">
+                <input placeholder="Password" id="password" name="password" type="password"  (keydown.enter)="onSubmit(f)" class="input-field" ngModel>
+            </div>
+            <div class="one-input">
+                <input placeholder="Startingcata" id="startingcata" name="startingcata" type="text"  (keydown.enter)="onSubmit(f)" class="input-field" ngModel>
+            </div>
+            <div class="one-input">
+                <textarea placeholder="StartingIdent" id="startingident" name="startingident"  (keydown.enter)="onSubmit(f)" type="text" class="input-field" ngModel></textarea>
+            </div>
+        </form>
+        <div class="submitbtn">
+            <a (click)="onSubmit(f)" class="submit-btn btn-gradient">
+                <img [src]="imgFolder+'login.gif'" alt="login">
+                <p>Login</p>
+            </a>    
+        </div>
+    </div> 
+</div>

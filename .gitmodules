@@ -1,0 +1,6 @@
+[submodule "backend/Engine"]
+	path = backend/Engine
+	url = https://gitea.compodata.fr/CompoData/ACE.Engine.git
+[submodule "backend/Resources"]
+	path = backend/Resources
+	url = https://gitea.compodata.fr/CompoData/ACE.Resources.git

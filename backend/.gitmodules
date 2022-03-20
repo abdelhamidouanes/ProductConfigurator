@@ -1,0 +1,21 @@
+[submodule "Engine"]
+	path = Engine
+	url = ../ACE.Engine
+[submodule "Resources"]
+	path = Resources
+	url = ../ACE.Resources
+[submodule "Help"]
+	path = Help
+	url = ../ACE.Help_en
+[submodule "Help_fr"]
+	path = Help_fr
+	url = ../ACE.Help_fr
+[submodule "Help_de"]
+	path = Help_de
+	url = ../ACE.Help_de
+[submodule "Help_it"]
+	path = Help_it
+	url = ../ACE.Help_it
+[submodule "Help_es"]
+	path = Help_es
+	url = ../ACE.Help_es

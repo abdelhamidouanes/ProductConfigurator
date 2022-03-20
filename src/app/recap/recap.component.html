@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="title"><p>{{designation}}</p></div>
+    <div class="data">
+        <dx-tab-panel
+        #tabPanel
+        [dataSource]="toArray(subforms)"
+        [selectedIndex]="0"
+        [loop]="true"
+        [animationEnabled]="true"
+        [swipeEnabled]="true"
+        width="100%"
+        heght="100%"
+        >
+        <div *dxTemplate="let subform of 'title'">
+            <span>{{ subform.Caption }}</span>
+        </div>
+        <div *dxTemplate="let subform of 'item'">
+            <div class="one-data" *ngFor="let parameter of subform.formfields">
+                <div [ngClass]="{'criteria-object-max': objectContainParameter(criteria, parameter),
+                                'criteria-object-min': !objectContainParameter(criteria, parameter)}" *ngFor="let criteria of data">
+                    <div class="for-div" *ngFor="let item of toArray(criteria.parameters)">
+                        <div class="if-div" *ngIf="parameter.Code==item.Code">
+                            <div class="container-data">
+                                <div class="label"><p>{{parameter.Label}}</p></div>
+                                <div class="content"><p>{{item.currvalues}} </p></div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        </dx-tab-panel>
+    </div>
+</div>
+<app-parts-pop-up class="partsPopUp" *ngIf="partsA_PARTPANEL.length>0"></app-parts-pop-up>

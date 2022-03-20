@@ -1,0 +1,177 @@
+<form #f="ngForm">
+    <div class="first-line">
+            <div class="label-container" *ngIf="useElement(selectBoxData.code, formField.Pattern, 'label')">
+                <label [for]="formField.Code">{{formField.Label}}</label> 
+            </div>
+            <div class="input-text-container" *ngIf="useElement(selectBoxData.code, formField.Pattern, 'input')">
+                <input [ngClass]="{'input-searched': (getCurrentValueInput(selectBoxData.code)!='' && getCurrentValueInput(selectBoxData.code)!= null),
+                                    'input' : !(getCurrentValueInput(selectBoxData.code)!='' && getCurrentValueInput(selectBoxData.code)!= null)}" 
+                    [type]="getElementType(formField.Type)"
+                    [id]="formField.Code" 
+                    [name]="formField.Code" 
+                    [ngModel]="getCurrentValueInput(selectBoxData.code)"  
+                    (keydown.enter)="onSearch(f, selectBoxData.code, formField.Pattern)"
+                    [disabled]="isInputDisabled(formField.Pattern, selectBoxData.code)" >
+
+            </div>
+            <div class="select-box-container" *ngIf="useElement(selectBoxData.code, formField.Pattern, 'selectBox')">
+                <!-- Liste des bulles -->
+                <div class="for-bull-container">
+                        <div class="bull-container">        
+                            <div [id]="generateid(possvalue+selectBoxData.code)" 
+                            (mouseenter)="toggleDefault(possvalue+selectBoxData.code)" 
+                            (mouseleave)="toggleDefault(possvalue+selectBoxData.code)"
+                            *ngFor="let possvalue of getSlicePossValues(selectBoxData.code, selectBoxData.data.store()._array, useElement(selectBoxData.code, formField.Pattern, 'laxMode')); let i = index"
+                                [ngClass]="{'bull': true,
+                                            'selected': (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)!=null),
+                                            'pointer': !(selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null),
+                                            'no-pointer': (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null),
+                                            'one-option' : (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null),
+                                            'bull-border': ((getCurrentValueBull(selectBoxData.code)== possvalue)|| (filters.get(selectBoxData.code)!=null)) }"
+                                            (click)="onFilterByItemBull(selectBoxData.code, selectBoxData.data.store()._array.indexOf(possvalue), (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null))">
+                                <p [ngStyle]="{'width': getBullPWidth(selectBoxData, useElement(selectBoxData.code, formField.Pattern, 'laxMode'))+'px'}">
+                                    <em *ngIf="firstLetterLaxMode(possvalue)" class="fas fa-exclamation-triangle"></em>
+                                    <!-- Ne pas afficher la première lettre si elle correspond au laxmode letter -->
+                                    {{firstLetterLaxMode(possvalue)?possvalue.substring(1, possvalue.length):possvalue}} 
+                                </p>
+                                <dx-tooltip 
+                                    [target]="'#'+generateid(possvalue+selectBoxData.code)" 
+                                    [visible]="getVisible(possvalue+selectBoxData.code)"
+                                    [closeOnOutsideClick]="false">
+                                        <div *dxTemplate="let data = data of 'content'">
+                                            <em *ngIf="firstLetterLaxMode(possvalue)" class="fas fa-exclamation-triangle"></em>
+                                            <!-- Ne pas afficher la première lettre si elle correspond au laxmode letter -->
+                                            {{firstLetterLaxMode(possvalue)?possvalue.substring(1, possvalue.length):possvalue}} 
+                                        </div>
+                                </dx-tooltip>
+                            </div>
+                            <div [id]="generateid(getCurrentValueBull(selectBoxData.code)+selectBoxData.code)" 
+                                (mouseenter)="toggleDefault(getCurrentValueBull(selectBoxData.code)+selectBoxData.code)" 
+                                (mouseleave)="toggleDefault(getCurrentValueBull(selectBoxData.code)+selectBoxData.code)" 
+                                *ngIf="(!haveBull(selectBoxData.code, getCurrentValueBull(selectBoxData.code))) && (filters.get(selectBoxData.code)==null) && nbrBullToBeDisplayed>0"
+                                [ngClass]="{'bull': true,
+                                            'bull-border': true,
+                                            'pointer': true,
+                                            'selected': (nbrBullToBeDisplayed==0 && filters.get(selectBoxData.code)!=null),
+                                            'no-pointer': (selectBoxData.data.store()._array.length<2 && filters.get(selectBoxData.code)==null),
+                                            'one-option' : (selectBoxData.data.store()._array.length<2 && filters.get(selectBoxData.code)==null)
+                                            }"
+                                (click)="onFilterByItemBull(selectBoxData.code, selectBoxData.data.store()._array.indexOf(getCurrentValueBull(selectBoxData.code)),(selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null))">
+                                <p [ngStyle]="{'width': getBullPWidth(selectBoxData, useElement(selectBoxData.code, formField.Pattern, 'laxMode'))+'px'}">
+                                    {{getCurrentValueBull(selectBoxData.code)}}
+                                </p>
+                                <dx-tooltip 
+                                    [target]="'#'+generateid(getCurrentValueBull(selectBoxData.code)+selectBoxData.code)" 
+                                    [visible]="getVisible(getCurrentValueBull(selectBoxData.code)+selectBoxData.code)"
+                                    [closeOnOutsideClick]="false">
+                                        <div *dxTemplate="let data = data of 'content'" >
+                                            {{getCurrentValueBull(selectBoxData.code)}} 
+                                        </div>
+                                </dx-tooltip>
+                            </div>
+                        </div>    
+                </div>
+                <!-- laxMode -->
+                <div *ngIf="((useElement(selectBoxData.code, formField.Pattern, 'laxMode')) && (selectBoxData.data.store()._array.length > 1)) || ((laxModeActive.get(selectBoxData.code)!=null) && (laxModeActive.get(selectBoxData.code)))"
+                    
+                    [ngClass]="{'lax-mode-container': true,
+                                'lax-mode-zindex': (windowWidth<600 || (isSelectBoxOpen.get(selectBoxData.code)==null || isSelectBoxOpen.get(selectBoxData.code)==false))}">
+                    <em [id]="'laxModeActive_'+selectBoxData.code"
+                        (mouseenter)="toggleDefaultLaxModeActive(selectBoxData.code)" 
+                        (mouseleave)="toggleDefaultLaxModeActive(selectBoxData.code)" 
+                        *ngIf="((laxModeActive.get(selectBoxData.code)!=null) && (laxModeActive.get(selectBoxData.code)))"
+                        class="fas fa-exclamation-triangle triangle-icon"></em>
+                    <div (click)="openLaxModeMenu($event,selectBoxData.code)" 
+                        class="laxmode-icon-container pointer" 
+                        *ngIf="(filters.get(selectBoxData.code)==null)">
+                        <em class="fas fa-ellipsis-v"></em>
+                    </div>
+                    <div id='laxMode' (click)="laxModeMenu($event,selectBoxData.code)" class="lax-mode pointer" 
+                    *ngIf="((filters.get(selectBoxData.code)==null) && (laxModeMenuOpen.get(selectBoxData.code)!=null) && (laxModeMenuOpen.get(selectBoxData.code)))"
+                    (mouseenter)="toggleDefaultLaxMode()" 
+                    (mouseleave)="toggleDefaultLaxMode()" >
+                        <em *ngIf="((laxModeActive.get(selectBoxData.code)!=null) && (laxModeActive.get(selectBoxData.code)))" class="fas fa-check check-icon"></em>
+                        <p>Lax mode</p>
+                    </div>
+                    <dx-tooltip 
+                        target="#laxMode" 
+                        [visible]="defaultVisibleLaxMode"
+                        [closeOnOutsideClick]="false">
+                        If selected, will not exclude products where the value is undefined...
+                    </dx-tooltip>
+                    <dx-tooltip 
+                        [target]="'#laxModeActive_'+selectBoxData.code" 
+                        [visible]="getVisibleLaxModeActive(selectBoxData.code)"
+                        [closeOnOutsideClick]="false">
+                        Lax mode is active.
+                    </dx-tooltip>
+                </div>
+                <!-- selectBox -->
+                <div class="dxfieldvalue-container">
+                    <div [ngClass]="{'dx-field-value': true,
+                                    'pointer': !(selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null),
+                                    'no-pointer': (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null)  }">
+                                <em *ngIf="((filters.get(selectBoxData.code)!=null) || displaySelectBox(selectBoxData.code, selectBoxData.data.store()._array.length))"
+                                    [ngClass]="{'listderoulante-reset-icon': true,
+                                                'fas': true,
+                                                'pointer':true,
+                                                'fa-arrow-circle-down': (filters.get(selectBoxData.code)==null),
+                                                'fa-sync-alt': (filters.get(selectBoxData.code)!=null)}"
+                                    (click)="onIconClick(selectBoxData.code, filters.get(selectBoxData.code)==null? 'listderoulante' : 'reset')">
+                                    <dx-select-box  *ngIf="displaySelectBox(selectBoxData.code, selectBoxData.data.store()._array.length)  && InitializeSelectBoxWidthSelectBoxIndex(selectBoxData.code)"
+                                    [id]="selectBoxData.code"
+                                    [disabled]="selectBoxData.data.store()._array.length<=1"
+                                    [wrapItemText]=false 
+                                    [dataSource]="selectBoxData.data"
+                                    [searchEnabled]="false"
+                                    [width]="useElement(selectBoxData.code, formField.Pattern, 'laxMode') ? (selectBoxWidth - 30) : selectBoxWidth"
+                                    (onClosed)="isSelectBoxOpenToFalse(selectBoxData.code)"
+                                    height="25px"
+                                    stylingMode="Filled"
+                                    [ngStyle]="{'left': '-' + (selectBoxWidth+10) + 'px'}"
+                                    [ngClass]="{'dx-select-box': true,
+                                                'select-box-hidden': (!isSelectBoxOpen.get(selectBoxData.code) && (windowWidth>=600)),
+                                                'select-box-visible': (isSelectBoxOpen.get(selectBoxData.code)) || (windowWidth<600) }"
+                                    (onItemClick)="onFilterByItem($event, (selectBoxData.data.store()._array.length == 1 && filters.get(selectBoxData.code)==null))"                                                                    
+                                    [value]="selectBoxValue(selectBoxData.code)" 
+                                    [placeholder]="selectBoxPlaceHolder(selectBoxData.code)"
+                                    [value]="getCurrentValueBull(selectBoxData.code)"
+                                    itemTemplate="item">
+                                        <div *dxTemplate="let data of 'item'" 
+                                            [id]="generateidSelectBox(data+selectBoxData.code)" 
+                                            (mouseenter)="toggleDefaultSelectBox(data+selectBoxData.code)" 
+                                            (mouseleave)="toggleDefaultSelectBox(data+selectBoxData.code)">
+                                            <div>{{data}}</div>
+                                            <dx-tooltip 
+                                                    [target]="'#'+generateidSelectBox(data+selectBoxData.code)" 
+                                                    [visible]="getVisibleSelectBox(data+selectBoxData.code)"
+                                                    [closeOnOutsideClick]="false">
+                                                    {{data}}
+                                            </dx-tooltip>
+                                        </div>
+                                    </dx-select-box>
+                                </em>
+                    </div>
+                </div>
+                <!-- img selection icon -->
+                <div class="img-selection-icon">
+                    <em [ngClass]="{'fas': true, 
+                                    'fa-question-circle': true, 
+                                    'pointer': true,
+                                    'img-selection-open': isOpenImgSelection(selectBoxData.code),
+                                    'img-selection-close': !isOpenImgSelection(selectBoxData.code)}"
+                        *ngIf="useElement(selectBoxData.code, formField.Pattern, 'img-selection')"
+                        (click)="openCloseImgSelection(selectBoxData.code)"></em>
+                </div>
+            </div> 
+    </div>  
+    <!-- second line, to be displayed if we open image selection      -->
+    <div class="img-selection" *ngIf="isOpenImgSelection(selectBoxData.code)"> 
+        <div class="one-img" 
+             *ngFor="let itemImgSelection of responseImgSelection.get(selectBoxData.code); let i = index"
+             (click)="onFilterByImage(selectBoxData.code, i)">
+            <img [src]="itemImgSelection.image.URL" [alt]="itemImgSelection.Symbol">
+            <p>{{itemImgSelection.Symbol}}</p>
+        </div>
+    </div>
+</form>

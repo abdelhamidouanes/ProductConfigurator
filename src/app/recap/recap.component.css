@@ -1,0 +1,130 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+}  
+.title{
+    width: 100%;
+    background-image: -webkit-linear-gradient(top, #FFFFFF, var(--borders-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px;
+    border-radius: 3px;
+} 
+.title p{
+    font: var(--titles-font);
+    font-size: 1rem;
+    color: var(--theme-color);
+} 
+.data{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0px;
+} 
+.one-data{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px dotted silver;
+    height: 25px;
+    padding: 2px 15px;
+} 
+.one-data:last-child{
+    border-bottom: none;
+}
+
+.criteria-object-max{
+    width: 100%;
+} 
+.criteria-object-min{
+    width: 0%;
+} 
+
+.container-data{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} 
+.label{
+    width: 20%;
+    overflow: auto;
+    user-select: none;
+    border-right: 1px dotted silver;
+    margin-left: 2px;
+} 
+.label p{
+    font: var(--titles-font);
+    font-size: 12px;
+    font-weight: 550;
+    color: var(--theme-color);
+} 
+.content{
+    width: 80%;
+    overflow: auto;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+.content p{
+    font: var(--placeholder-input-font);
+    font-size: 12px;
+    font-weight: 550;
+    color: var(--placeholder-input-color);
+}
+.partsPopUp{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
+} 
+
+@media screen and (max-width: 800px) {
+    .one-data{
+        height: 50px;
+    }   
+}
+
+
+@media screen and (max-width: 500px) {
+    .one-data{
+        height: 70px;
+    } 
+    .label{
+        width: 30%;
+    } 
+    .content{
+        width: 70%;
+    }     
+}
+
+
+::ng-deep .tabpanel-item {
+    height: 200px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding-left: 25px;
+    padding-top: 55px;
+  }
+  
+  ::ng-deep .dx-template-wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+  }

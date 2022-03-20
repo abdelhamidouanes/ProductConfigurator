@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="background" (click)="onXClick()"></div> 
+    <div class="msg-box-container">
+        <div class="title-container"><p>{{this.responseDefaultIntro.B_Part}}</p><em (click)="onXClick()" class="far fa-window-close"></em></div>
+        <div class="msg-container">
+            <dx-list 
+            #list
+            selectionMode="single"
+            [dataSource]="partsA_PARTPANEL"
+            height="100%"
+            width="80%" 
+            [searchEnabled]="false"
+            [scrollByContent]="true"
+            searchMode="contains"
+            pageLoadMode="scrollBottom"
+            (onSelectionChanged)="onPartSelection(list.selectedItemKeys)">
+                <div *dxTemplate="let data of 'item'">
+                    <div (dblclick)="onDoubleClickPartSelection(data.Code)" class="no-selection">{{data.Name}} ({{data.Occ}})</div>
+                </div>
+            </dx-list>
+        </div>
+        <div class="ok-btn"><button [disabled]="selectedPartCode===''" class="btn-gradient" (click)="getPart()">{{this.responseDefaultIntro.B_Open}}</button></div> 
+    </div>
+</div> 

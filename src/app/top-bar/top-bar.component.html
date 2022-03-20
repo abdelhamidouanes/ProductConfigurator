@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="left"> 
+        <div [ngClass]="{'menu-enable0': topBar[0].items.length>0,
+                         'menu-disable0': topBar[0].items.length==0,
+                         'menu-enable1': topBar[1].items.length>0,
+                         'menu-disable1': topBar[1].items.length==0,
+                         'menu-enable2': topBar[2].items.length>0,
+                         'menu-disable2': topBar[2].items.length==0,
+                         'menu-enable3': topBar[3].items.length>0,
+                         'menu-disable3': topBar[3].items.length==0,
+                         'menu-enable4': topBar[4].items.length>0,
+                         'menu-disable4': topBar[4].items.length==0}">
+            <dx-menu
+                #menu
+                [dataSource]="topBar"
+                displayExpr="name"
+                showFirstSubmenuMode="onHover"
+                orientation="horizontal"
+                submenuDirection="auto"
+                [hideSubmenuOnMouseLeave]="true"
+                (onItemClick)="itemClick($event)"
+            >
+            </dx-menu>
+        </div>
+    </div>
+    <div class="right"> 
+        <!-- Progression Bar -->
+        <div class="progression-container">
+            <div *ngFor="let item of responseOptions.progression.famname; let i=index" 
+                [ngClass]="{'btn-progression': true,
+                            'current-page' : indexFirstMiniscule(responseOptions.progression.pattern)===i,
+                            'next-page' : indexFirstMiniscule(responseOptions.progression.pattern)!=i && responseOptions.progression.pattern[i].toLowerCase() === responseOptions.progression.pattern[i]}"
+                 [id]="'tooltip'+i"
+                 (mouseenter)="toggleDefault(i)"
+                 (mouseleave)="toggleDefault(i)"
+                 (click)="onItemClickProgressionBar(i)">
+                <p>{{i+1}}</p>
+                <dx-tooltip 
+                    [target]="'#tooltip'+i" 
+                    [visible]="tooltipVisible.get(i)"
+                    [closeOnOutsideClick]="false">
+                    <div *dxTemplate="let data = data of 'content'">
+                        {{item}}
+                    </div>
+                </dx-tooltip>
+            </div>
+        </div>
+        <!-- Languages list -->
+        <div class="language-container">
+            <div class="dx-field-value">
+                <dx-select-box
+                    id="custom-templates"
+                    [dataSource]="responseLangs"
+                    displayExpr="Name"
+                    valueExpr="Code"
+                    [value]="responseOptions.Lang"
+                    fieldTemplate="field"
+                    height="25px"
+                    (onSelectionChanged)="onLanguageSelection($event)"
+                    *ngIf="!noChangeLanguage.includes(actualPage)"
+                >
+                    <div *dxTemplate="let data of 'field'">
+                        <div class="custom-item">
+                            <img [src]="getFlagImg(data && data.Code)" class="flag"/>
+                            <dx-text-box class="product-name" 
+                                [value]="data && data.Name" 
+                                [readOnly]="true"
+                            ></dx-text-box>
+                        </div>
+                    </div>
+                    <div *dxTemplate="let data of 'item'">
+                        <div class="custom-item">
+                            <img [src]="getFlagImg(data && data.Code)" class="flag" />
+                            <div class="product-name">
+                                {{data.Name}}
+                            </div>
+                        </div>
+                    </div>
+                </dx-select-box>
+            </div>
+        </div>
+        <!-- End Languages list -->
+    </div>    
+</div>

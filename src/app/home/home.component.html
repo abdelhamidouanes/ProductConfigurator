@@ -1,0 +1,12 @@
+<div class="container">
+    <!-- This component includes all components, based on the actualPage variable, only one component will be shown
+    The actualPage variable is managed by routingService -->
+    <app-menu *ngIf="actualPage === 'Menu'"></app-menu>
+    <app-login *ngIf="actualPage === 'Login'"></app-login>
+    <app-list-catalog *ngIf="actualPage === 'Catalogue'"></app-list-catalog>
+    <app-icons *ngIf="actualPage === 'Icon'"></app-icons>
+    <app-brands *ngIf="actualPage === 'Brands'"></app-brands>
+    <app-configurator *ngIf="actualPage === 'Configurator'"></app-configurator>
+    <app-article *ngIf="actualPage === 'Article'"></app-article>
+    <app-recap *ngIf="actualPage === 'Recap'"></app-recap>
+</div>

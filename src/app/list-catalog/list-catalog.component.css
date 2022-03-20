@@ -1,0 +1,73 @@
+::ng-deep .dx-list-item-content > div {
+    padding: 5px;
+    font-size: 15px;
+}
+
+::ng-deep .options {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(191, 191, 191, 0.15);
+}
+
+::ng-deep .options .caption {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+::ng-deep .option {
+    margin-top: 10px;
+}
+
+::ng-deep .option > span {
+    margin-right: 10px;
+}
+
+::ng-deep .option > .dx-selectbox {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 350px;
+    width: 100%;
+}
+
+::ng-deep .dx-list-search{
+    min-height: 30px;
+}
+
+::ng-deep .dx-texteditor-input-container{
+    min-height: 30px;
+}
+
+::ng-deep .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-focused.dx-list-item-selected{
+    background-color: var(--theme-color);
+}
+
+::ng-deep .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-list-item-selected{
+    background-color: var(--borders-color);
+}
+
+::ng-deep .dx-widget{
+    font-family: var(--placeholder-input-font);
+}
+::ng-deep .dx-widget input{
+    font-family: var(--placeholder-input-font);
+}
+/* Personalized style */
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+} 
+.list-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    width: 80%;
+    margin: 20px 0px;
+} 
+.no-selection{
+    user-select: none;
+}

@@ -1,0 +1,89 @@
+<div class="container" id="image-viewer">
+    <div [ngClass]="{'img-container': true, 'img-container-center': displayingPercentage<=100 }" #imgContainer>
+        <img [ngClass]="{'illustration': true, 'illustration-center': displayingPercentage<=100, 'grab': !mouseDown, 'grabbing': mouseDown}"
+            [ngStyle]="{'width': zoomDisplayWidth+'px',
+                        'height': zoomDisplayHeight+'px', 
+                        'top': imgDisplayedtopPostion+'px',
+                        'left': imgDisplayedleftPostion+'px',             
+                        'transform': 'rotate('+rotation+'deg) scaleX('+mirrorEffectValue+')' }" 
+            [src]="imgURL" [alt]="imgTitle"
+            (mousemove)="onMouseMove($event)"
+            (mousedown)="onMouseDown($event)"
+            (mouseup)="onMouseRealeased($event)"
+            (mouseleave)="onMouseRealeased($event)" > 
+        <div class="map-container" *ngIf="mapActive && windowWidth>1200 && windowHeight>600" 
+             [ngStyle]="{'width': mapWidthContainer+'px',
+                         'height': mapHeightContainer+'px' }" >
+            <div class="invisible-part" [ngStyle]="{'height': (mapHeightContainer * 10)+'px',
+                                                    'width': (mapWidthContainer *10)+'px',
+                                                    'transform': 'translate('+invisiblePartTransformX+'px,'+invisiblePartTransformY+'px)',
+                                                    'clip-path': 'polygon(0% 0%, 0% 100%, '+topLeftPointXInvisiblePart+'% 100%, '+topLeftPointXInvisiblePart+'% '+topLeftPointYInvisiblePart+'%, '+topRightPointXInvisiblePart+'% '+topRightPointYInvisiblePart+'%, '+bottomRightPointXInvisiblePart+'% '+bottomRightPointYInvisiblePart+'%, '+bottomLeftPointXInvisiblePart+'% '+bottomLeftPointYInvisiblePart+'%, '+topLeftPointXInvisiblePart+'% 100%, 100% 100%, 100% 0%)'}">
+            </div>
+            <div class="visible-part" [ngStyle]="{'width': mapWidthContainer+'px',
+                                                  'height': mapHeightContainer+'px',
+                                                  'transform': 'translate('+visiblePartTransformX+'px, '+visiblePartTransformY+'px)',
+                                                  'clip-path': 'polygon(0% 0%, 0% 100%, '+topLeftPointX+'% 100%, '+topLeftPointX+'% '+topLeftPointY+'%, '+topRightPointX+'% '+topRightPointY+'%, '+bottomRightPointX+'% '+bottomRightPointY+'%, '+bottomLeftPointX+'% '+bottomLeftPointY+'%, '+topLeftPointX+'% 100%, 100% 100%, 100% 0%)' }">
+            </div>             
+            <img [src]="imgURL" [alt]="imgTitle" [ngClass]="{'illustration-map': true, 'grab': !mouseDownMap, 'grabbing': mouseDownMap}"
+                (mousemove)="onMouseMoveMap($event)"
+                (mousedown)="onMouseDownMap($event)"
+                (mouseup)="onMouseRealeasedMap($event)"
+                (mouseleave)="onMouseRealeasedMap($event)"
+                 [ngStyle]="{'width': mapWidth+'px',
+                             'height': mapHeight+'px',             
+                             'transform': 'rotate('+rotation+'deg) scaleX('+mirrorEffectValue+')' }" >
+            <em (click)="onXClick()" class="far fa-window-close x-map"></em>
+        </div>    
+    </div>
+    <div class="buttons-container">
+        <div class="dx-field-value slider">
+            <dx-slider
+                [step]="stepSliderZoom"
+                [min]="maxZoomOut"
+                [max]="maxZoomIn"
+                [(value)]="displayingPercentage"
+                (onValueChanged)="zoomInOutSlider($event)"
+                [rtlEnabled]="false">
+                <dxo-tooltip
+                    [enabled]="true"
+                    [format]="format"
+                    showMode="always"
+                    position="top"
+                ></dxo-tooltip>
+            </dx-slider>
+        </div>
+        <div class="buttons">
+            <em *ngIf="windowWidth>=1200" (click)="activeDesactiveMap()" [ngClass]="{'fas': true,
+                                                            'fa-map-marked': true,
+                                                            'btn': !mapActive,
+                                                            'btn-disabled-map':  mapActive }"></em>
+            <em (click)="zoomInBtn()" [ngClass]="{'fas': true,
+                                                  'fa-search-plus': true,
+                                                   'btn': displayingPercentage < maxZoomIn,
+                                                   'btn-disabled':  displayingPercentage >= maxZoomIn }"></em>
+            <em (click)="zoomOutBtn()" [ngClass]="{'fas': true,
+                                                    'fa-search-minus': true,
+                                                    'btn': displayingPercentage > maxZoomOut,
+                                                    'btn-disabled':  displayingPercentage <= maxZoomOut }"></em>
+            <em (click)="rotateRight()" class="fas fa-undo mirror btn"></em>
+            <em (click)="rotateLeft()" class="fas fa-undo btn"></em>
+            <div (click)="activeDesactiveMirrorEffect()" class="mirror-effect" *ngIf="!mirrorEffectActive">   
+                <em class="far fa-image btn-mirror"></em>
+                <em class="far fa-image mirror btn-mirror2"></em>
+            </div>
+            <div (click)="activeDesactiveMirrorEffect()" class="mirror-effect" *ngIf="mirrorEffectActive"> 
+                <em class="far fa-image mirror btn-mirror2"></em>  
+                <em class="far fa-image btn-mirror"></em>
+            </div>
+            <em (click)="resetDisplaying()" [ngClass]="{'fas': true,
+                                                        'fa-compress': true,
+                                                        'btn': !resetBtnDisabled(),
+                                                        'btn-disabled': resetBtnDisabled() }"></em>
+            <em (click)="openCloseFullscreen()" [ngClass]="{'fas': true,
+                                                      'fa-expand': !isFullScreen(),
+                                                      'fa-compress-arrows-alt': isFullScreen(),
+                                                      'btn': true}"></em>
+            <a class="btn-a-download" [href]="imgURL" target="_blank" [download]="getFileName()"><em class="fas fa-download btn-download"></em></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="background" (click)="onXClick()"></div> 
+  <div class="msg-box-container">
+      <div class="title-container"><p>{{title}}</p><em (click)="onXClick()" class="far fa-window-close"></em></div>
+      <div *ngIf="type=='i'" class="img-container">
+        <app-image-viewer [imgURL]="responseForTopBarRequest.image.URL" 
+        [imgRealWidth]="+responseForTopBarRequest.image.Width" 
+        [imgRealHeight]="+responseForTopBarRequest.image.Height" 
+        [imgTitle]="title"
+        [maxZoomIn]="maxZoomIn"
+        [maxZoomOut]="maxZoomOut"
+        [stepBtnZoom]="stepBtnZoom"
+        [stepSliderZoom]="stepSliderZoom"
+        [stepMouseWheelZoom]="stepMouseWheelZoom"
+        [realImgMapProportion]="realImgMapProportion"></app-image-viewer>
+      </div>
+  </div>
+</div> 

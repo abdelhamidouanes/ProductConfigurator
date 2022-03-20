@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="background" (click)="onClick()"></div> 
+    <div class="msg-box-container">
+        <div class="title-container"><p>Error</p><em (click)="onClick()" class="far fa-window-close"></em></div>
+        <div class="msg-container">
+            <p>{{title}}</p>
+            <p>{{msg}}</p>
+          </div>
+        <div class="ok-btn"><button class="btn-gradient" (click)="onClick()">OK</button></div> 
+    </div>
+</div> 

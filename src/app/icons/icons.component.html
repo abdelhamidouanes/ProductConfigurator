@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="icons">
+        <div class="one-icon-container pointer" *ngFor="let icon of icons" (click)="onClick('OneIconClicked', icon.Code)">
+            <div class="one-icon">
+                <div class="img-container">
+                    <img [src]="icon.image.URL" [alt]="icon.Name">
+                </div>
+                <div class="title">
+                    <p class="icon-font">{{icon.Symbol}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

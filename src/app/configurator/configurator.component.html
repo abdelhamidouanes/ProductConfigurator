@@ -1,0 +1,57 @@
+<div class="container" (click)="closeLaxModeMenu()" >
+    <div class="multicriteriasearch-datagrid-selecteditempicture-container">
+        <div [ngClass]="{'multicriteriasearch-datagrid-container': (specCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase()) && windowWidth>=600 && specURL.changingThisBreaksApplicationSecurity!=null),
+                         'multicriteriasearch-datagrid-containerNoQspec' : !(specCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase()) && windowWidth>=600 && specURL.changingThisBreaksApplicationSecurity!=null)}">
+            <div class="multi-criteria-search-container">
+                <div class="one-subform-container" *ngFor="let subForm of subForms; let i=index">
+                    <div class="title-container pointer" (click)="displayUndisplaySubform(i)">
+                        <em [ngClass]="{'fas': true,
+                                        'fa-caret-right': !displaySubform(i),
+                                        'fa-sort-down': displaySubform(i)}"></em>
+                        <h2>{{subForm.Caption}}</h2>
+                    </div>
+                    <div [ngClass]="{'non-display': !displaySubform(i), 
+                                     'block-display': displaySubform(i)}">
+                            <div class="one-search-criteria-container" *ngFor="let formField of subForm.formfields">
+                                <div class="selectBoxDatas-container" *ngFor="let selectBoxData of selectBoxDatas">
+                                    <app-one-form-configurator  class="test-div"
+                                                                *ngIf="selectBoxData.code==formField.Code && formField.Pattern!=''"
+                                                                [formField]="formField"
+                                                                [selectBoxData]="selectBoxData"
+                                    >
+                                    </app-one-form-configurator>
+                                </div>  
+                            </div>  
+                            <div class="bloc-extention" *ngIf="formfiedOptions[i].length>0">
+                                <div class="title-container pointer" (click)="displayUndisplayExtentionSubform(i)">
+                                    <em [ngClass]="{'fas': true,
+                                                    'fa-caret-right': !displayExtentionSubform(i),
+                                                    'fa-sort-down': displayExtentionSubform(i)}"></em>
+                                </div>
+                                <div [ngClass]="{'non-display': !displayExtentionSubform(i), 
+                                                 'block-display': displayExtentionSubform(i)}">
+                                    <div class="one-search-criteria-container" *ngFor="let formField of formfiedOptions[i]">
+                                        <div class="selectBoxDatas-container" *ngFor="let selectBoxData of selectBoxDatas">
+                                            <app-one-form-configurator  class="test-div"
+                                                                        *ngIf="selectBoxData.code==formField.Code && formField.Pattern!=''"
+                                                                        [formField]="formField"
+                                                                        [selectBoxData]="selectBoxData"
+                                            >
+                                            </app-one-form-configurator>
+                                        </div>  
+                                    </div>  
+                                </div>
+                            </div>
+                    </div>  
+                </div> 
+            </div>      
+            <div [ngClass]="{'data-list-container': columnsA_SELLISTUPDERGO!='', 
+                             'data-list-container-hidden': columnsA_SELLISTUPDERGO==''}">
+                <app-multi-column-grid [filter]="configuratorDisplayService.filterEventSubject"></app-multi-column-grid>
+            </div>
+        </div>
+        <div class="frameQspec" *ngIf="specCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase()) && windowWidth>=600 && specURL.changingThisBreaksApplicationSecurity!=null">
+            <app-iframe class="app-iframe" [srcIframe]="specURL" ></app-iframe>
+        </div>
+    </div>
+</div>

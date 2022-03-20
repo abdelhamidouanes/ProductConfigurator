@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="left"> <!-- Buttons to be display on left -->
+        <div *ngFor="let navigationButton of navigationButtons" class="button-navigation-container"> <!--Iterate the array of buttons-->
+                <!--Only buttons with buttonOnLeft==true will be displayed here (on the left), and the display attribute should be true -->
+                <button [disabled]="!navigationButton.active" 
+                        *ngIf="navigationButton.display && navigationButton.buttonOnLeft" 
+                        class="button-navigation btn-gradient"
+                        (click)="onNavigateTo(navigationButton.path)">
+                    <em *ngIf="!(iconsNavigationCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase()))" [class]="navigationButton.fontAwesomeClass + ' font-awesome'"></em>
+                    <img *ngIf="iconsNavigationCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase())" [src]="imgFolder + navigationButton.iconName" class="imgButtonIcon" alt="icon">
+                    <p class="txt-button-navigation">{{navigationButton.title}}</p>
+                </button>
+        </div>
+    </div>
+    <div class="right"> <!-- Buttons to be display on right -->
+        <div *ngFor="let navigationButton of navigationButtons" class="button-navigation-container"> <!--Iterate the array of buttons-->
+            <!--Only buttons with buttonOnLeft==false will be displayed here (on the right), and the display attribute should be true -->            
+            <button [disabled]="!navigationButton.active" 
+                    *ngIf="navigationButton.display && !navigationButton.buttonOnLeft" 
+                    class="button-navigation btn-gradient"
+                    (click)="onNavigateTo(navigationButton.path)">
+                <em *ngIf="!(iconsNavigationCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase()))" [class]="navigationButton.fontAwesomeClass +' font-awesome'"></em>
+                <img *ngIf="iconsNavigationCatalogs.includes(retreiveHttpDataService.responseOptions.CatCode.toUpperCase())" [src]="imgFolder + navigationButton.iconName" class="imgButtonIcon" alt="icon">
+                <p class="txt-button-navigation">{{navigationButton.title}}</p>
+            </button>
+        </div>
+    </div>    
+</div>

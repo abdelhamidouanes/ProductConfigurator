@@ -1,0 +1,28 @@
+<div class="container">
+    <app-top-bar class="top-bar" *ngIf="!(noTopBarPaths.includes(actualPage))"></app-top-bar>
+    <app-header class="header" *ngIf="!(noHeaderPaths.includes(actualPage))"></app-header>
+    <app-outlet-container [ngClass]="{'outlet': true,
+                                    'outlet-only-header' : (!(noHeaderPaths.includes(actualPage)) && (noFooterPaths.includes(actualPage)) && (noTopBarPaths.includes(actualPage))),
+                                    'outlet-only-footer' : ((noHeaderPaths.includes(actualPage)) && !(noFooterPaths.includes(actualPage)) && (noTopBarPaths.includes(actualPage))),
+                                    'outlet-noHeader-noFooter' : ((noHeaderPaths.includes(actualPage)) && (noFooterPaths.includes(actualPage)) && (noTopBarPaths.includes(actualPage))),
+                                    'outlet-only-header-topbar' : (!(noHeaderPaths.includes(actualPage)) && (noFooterPaths.includes(actualPage)) && !(noTopBarPaths.includes(actualPage))),
+                                    'outlet-only-footer-topbar' : ((noHeaderPaths.includes(actualPage)) && !(noFooterPaths.includes(actualPage)) && !(noTopBarPaths.includes(actualPage))),
+                                    'outlet-noHeader-noFooter-topbar' : ((noHeaderPaths.includes(actualPage)) && (noFooterPaths.includes(actualPage)) && !(noTopBarPaths.includes(actualPage)))}"
+    >
+    </app-outlet-container>
+    <!-- The navigation bar will be shown if the path is not in the noFooterPAths array-->
+    <app-navigation class="nav" *ngIf="!(noFooterPaths.includes(actualPage))"></app-navigation>
+</div> 
+<dx-load-panel
+    #loadPanel
+    shadingColor="rgba(0,0,0,0.4)"
+    [visible]="loading"
+    [showIndicator]="true"
+    [showPane]="true"
+    [shading]="true"
+    [closeOnOutsideClick]="false"
+    [indicatorSrc]="imgFolder + 'loading4.gif'">
+</dx-load-panel>
+<app-alert-msg class="msg-alert" *ngIf="responseQPING.ERRCODE != null && responseQPING.ERRCODE != ''" [title]="responseQPING.ERRCODE" [msg]="responseQPING.ERRMSG"></app-alert-msg>
+<app-warning-msg class="msg-warning" *ngIf="responseOptions.ErrorCode != '' && responseOptions.ErrorCode != '0'" [msg]="responseOptions.Error"></app-warning-msg>
+<app-popup-container class="popUp" *ngIf="popUp"></app-popup-container>

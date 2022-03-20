@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    --borders-color: #EDF2F4;
+    --borders-color-bull-selected: #8D99AE;
+    --borders-color-bull-oneoption: #bebebe;
+    --titles-font: 'Work Sans', sans-serif;
+    --placeholder-input-font: 'Oxygen', sans-serif;
+    --placeholder-input-color: #2B2D42;
+    --placeholder-input-color2: #d90427b5;
+
+    --theme-color : #457B9D;
+    --theme-bg: #ffffff;
+
+    --navigation-disabled-btn-bg: #CCCCCC;
+    --navigation-disabled-btn-color: #666666;
+
+
+    --theme-element-bg-color : #EEEEEE;
+    --backgroud-selected: #777777; 
+} 
+
+.btn-gradient{
+    background: #FFFFFF;
+    background-image: -webkit-linear-gradient(top, #FFFFFF, var(--borders-color));
+    border-radius: 5px;
+    color: #000000;
+    border: solid var(--borders-color) 2px;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+.btn-gradient:hover{
+    border: solid var(--borders-color) 2px;
+    background: var(--borders-color);
+    background-image: -webkit-linear-gradient(top, var(--borders-color), #FFFFFF);
+    border-radius: 5px;
+    text-decoration: none;
+}
+p, h1, h2, h3, h4, h5, h6, em, i{ 
+    font-size: 0.625rem;
+} 
+a{
+    text-decoration: none;
+    cursor: none;
+} 
+.pointer{
+    cursor: pointer;
+} 
+.no-pointer{
+    cursor: not-allowed;
+} 
